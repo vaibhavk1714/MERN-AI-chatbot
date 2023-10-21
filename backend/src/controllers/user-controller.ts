@@ -48,7 +48,7 @@ export const userSignup = async (
         });
 
         //create token and store cookie
-        const token = createToken(existingUser._id.toString(), existingUser.email, "7d");
+        const token = createToken(newUser._id.toString(), newUser.email, "7d");
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
 
@@ -60,7 +60,7 @@ export const userSignup = async (
             signed: true,
         });
 
-        return res.status(201).json({ message: "OK", id: newUser._id.toString() });
+        return res.status(201).json({ message: "OK", email: email });
     } catch (error) {
         console.log(error);
         return res.status(200).json({ message: "ERROR", cause: error.message })
