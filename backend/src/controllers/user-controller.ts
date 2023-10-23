@@ -60,7 +60,7 @@ export const userSignup = async (
             signed: true,
         });
 
-        return res.status(201).json({ message: "OK", email: email });
+        return res.status(201).json({ message: "OK", name: newUser.name, email: newUser.email });
     } catch (error) {
         console.log(error);
         return res.status(200).json({ message: "ERROR", cause: error.message })
@@ -107,9 +107,25 @@ export const userLogin = async (
             signed: true,
         });
 
-        return res.status(200).json({ message: "OK", id: existingUser._id.toString() });
+        return res.status(200).json({ message: "OK", name: existingUser.name, email: existingUser.email });
     } catch (error) {
         console.log(error);
         return res.status(200).json({ message: "ERROR", cause: error.message })
     }
+}
+
+export const verifyUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const user = await User.findById(res.locals.jwtData.id);
+    if (!user)
+        return res.status(401).send("User not registered or Token malfunction...");
+
+    if (user._id.toString() !== res.locals.jwtData.id) {
+        return res.status(401).send("Permissions did not match...");
+    }
+
+    return res.status(200).json({ message: "OK", name: user.name, email: user.email });
 }
