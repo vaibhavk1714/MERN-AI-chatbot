@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    Chats: [ChatsSchema],
+    chats: [ChatsSchema],
 });
 
 export default mongoose.model("User", UserSchema);
