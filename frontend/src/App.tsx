@@ -4,7 +4,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Chat from "./pages/Chat"
-import NotFound from "./pages/Notfound"
+import NotFound from "./pages/NotFound"
 
 const App = () => {
     return (
