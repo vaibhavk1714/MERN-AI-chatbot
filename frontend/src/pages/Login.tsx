@@ -47,7 +47,7 @@ const Login = () => {
                 alignItems={'center'}
                 padding={1}
                 ml={"auto"}
-                mr={8}
+                mr={12}
             >
                 <form
                     onSubmit={handleSubmit}
