@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import User from "../models/User.js";
 import { configureOpenAI } from "../config/openai-config.js";
 import { ChatCompletionRequestMessage, OpenAIApi } from "openai";
+import { error } from "console";
 
 export const generateChatCompletion = async (
     req: Request,
@@ -39,3 +40,50 @@ export const generateChatCompletion = async (
         return res.status(500).json({ message: "Something went wrong..." });
     }
 }
+
+export const getAllChats = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const user = await User.findById(res.locals.jwtData.id);
+
+        if (!user) {
+            return res.status(401).send("User not registered or Token malfunction");
+        }
+
+        if (user._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).send("Permissions did not match");
+        }
+
+        return res.status(200).json({ message: "OK", chats: user.chats });
+    } catch (err) {
+        return res.status(200).json({ message: "ERROR", cause: err.message });
+    }
+}
+
+export const deleteChats = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const user = await User.findById(res.locals.jwtData.id);
+
+        if (!user) {
+            return res.status(401).send("User not registered or Token malfunction");
+        }
+
+        if (user._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).send("Permissions did not match");
+        }
+
+        //@ts-ignore
+        user.chats = [];
+        await user.save();
+        return res.status(200).json({ mesasge: "OK" });
+    } catch (err) {
+        return res.status(200).json({ message: "ERROR", cause: err.message });
+    }
+} 
