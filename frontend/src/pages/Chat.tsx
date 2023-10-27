@@ -1,10 +1,12 @@
-import { Avatar, Box, Button, IconButton, Typography } from "@mui/material"
-import { useAuth } from "../context/authContext"
+import { Avatar, Box, Button, IconButton, Typography } from "@mui/material";
+import { useAuth } from "../context/authContext";
 import { red } from "@mui/material/colors";
 import ChatItem from "../components/chat/ChatItem";
-import { IoMdSend } from 'react-icons/io'
-import { useRef, useState } from "react";
-import { sendChatRequest } from "../helpers/api-communicator";
+import { IoMdSend } from 'react-icons/io';
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { deleteUserChats, getUserChats, sendChatRequest } from "../helpers/api-communicator";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 type Message = {
     role: string;
@@ -12,7 +14,7 @@ type Message = {
 }
 
 const Chat = () => {
-
+    const navigate = useNavigate();
     const auth = useAuth();
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -30,6 +32,36 @@ const Chat = () => {
         const chatData = await sendChatRequest(content);
         setChatMessages([...chatData.chats])
     }
+
+    const handleDeleteChats = async () => {
+        try {
+            toast.loading("Deleting chats...", { id: "deleteChats" })
+            await deleteUserChats();
+            setChatMessages([]);
+            toast.success("Deleted chats successfully", { id: "deleteChats" });
+        } catch (error) {
+            console.log(error);
+            toast.error("Failed to delete chats...", { id: "deleteChats" });
+        }
+    }
+
+    useLayoutEffect(() => {
+        if (auth?.isLoggedIn && auth.user) {
+            toast.loading("Loading chats...", { id: 'loadchats' });
+            getUserChats().then((data) => {
+                setChatMessages([...data.chats]);
+                toast.success("Successfully loaded chats", { id: 'loadchats' })
+            }).catch(error => {
+                console.log(error);
+                toast.error("Loading failed", { id: 'loadchats' })
+            })
+        }
+    }, [auth])
+
+    useEffect(() => {
+        if (!auth?.user)
+            return navigate("/login");
+    }, [auth])
 
     return (
         <Box sx={{
@@ -79,18 +111,20 @@ const Chat = () => {
                         You can ask any question related to knowledge, business, advices, education etc.
                         But avoid sharing personal information.
                     </Typography>
-                    <Button sx={{
-                        width: '200px',
-                        my: 'auto',
-                        color: 'white',
-                        fontWeight: 700,
-                        borderRadius: 3,
-                        mx: 'auto',
-                        bgcolor: red[300],
-                        ":hover": {
-                            bgcolor: red.A400,
-                        },
-                    }}>
+                    <Button
+                        onClick={handleDeleteChats}
+                        sx={{
+                            width: '200px',
+                            my: 'auto',
+                            color: 'white',
+                            fontWeight: 700,
+                            borderRadius: 3,
+                            mx: 'auto',
+                            bgcolor: red[300],
+                            ":hover": {
+                                bgcolor: red.A400,
+                            },
+                        }}>
                         Clear Conversation
                     </Button>
                 </Box>
