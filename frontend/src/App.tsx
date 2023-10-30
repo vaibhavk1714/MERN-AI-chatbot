@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import Header from "./components/Header"
+import Footer from "./components/Footer"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
@@ -20,6 +21,7 @@ const App = () => {
                 {auth?.isLoggedIn && auth?.user && < Route path="/chat" element={<Chat />} />}
                 <Route path="*" element={<NotFound />} />
             </Routes>
+            <Footer />
         </main>
     )
 }

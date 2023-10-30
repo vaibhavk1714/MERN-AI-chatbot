@@ -17,12 +17,12 @@ const Login = () => {
         const password = formData.get("password") as string;
 
         try {
-            toast.loading("Signing In...", { id: "login" });
+            toast.loading("Logging In...", { id: "login" });
             await auth?.login(email, password);
-            toast.success("Signed In Successfully...", { id: "login" });
+            toast.success("Logged In Successfully...", { id: "login" });
         } catch (error) {
             console.log(error);
-            toast.error("Signing In Failed...", { id: "login" });
+            toast.error("Log In Failed...", { id: "login" });
         }
     }
 

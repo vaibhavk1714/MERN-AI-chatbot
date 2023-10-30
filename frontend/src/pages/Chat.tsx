@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, IconButton, Typography } from "@mui/material";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import { red } from "@mui/material/colors";
-import ChatItem from "../components/chat/ChatItem";
+import ChatItem from "../components/ChatItem";
 import { IoMdSend } from 'react-icons/io';
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { deleteUserChats, getUserChats, sendChatRequest } from "../helpers/api-communicator";
@@ -163,7 +163,7 @@ const Chat = () => {
                 </Box>
                 <div style={{
                     width: '100%',
-                    padding: '12px',
+
                     borderRadius: 8,
                     backgroundColor: 'rgb(17, 27, 39)',
                     display: 'flex',
@@ -175,7 +175,7 @@ const Chat = () => {
                         style={{
                             width: '100%',
                             backgroundColor: 'transparent',
-                            padding: '5px',
+                            padding: '30px',
                             border: 'none',
                             outline: 'none',
                             color: 'white',
@@ -186,6 +186,7 @@ const Chat = () => {
                         sx={{
                             ml: 'auto',
                             color: 'white',
+                            mx: 1
                         }}
                     >
                         <IoMdSend />
