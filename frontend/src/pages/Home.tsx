@@ -1,5 +1,6 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material"
 import TypingAnimation from '../components/TypingAnimation'
+import Footer from "../components/Footer";
 
 const Home = () => {
     const theme = useTheme();
@@ -49,6 +50,7 @@ const Home = () => {
                         marginBottom: 20
                     }} />
             </Box>
+            <Footer />
         </Box>
     )
 }
