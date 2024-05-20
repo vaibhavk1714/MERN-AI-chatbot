@@ -5,7 +5,6 @@ import { COOKIE_NAME } from "../utils/constants.js";
 export const getAllUsers = async (req, res, next) => {
     //get all users from database
     try {
-        console.log("get all users");
         const users = await User.find();
         return res.status(200).json({ message: "OK", users: users });
     }

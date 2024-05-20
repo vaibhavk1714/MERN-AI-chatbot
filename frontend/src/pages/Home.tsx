@@ -4,7 +4,8 @@ import Footer from "../components/Footer";
 
 const Home = () => {
     const theme = useTheme();
-    const isBelowMd = useMediaQuery(theme.breakpoints.down("md"));
+    const isBelowMd = useMediaQuery(
+        theme.breakpoints.down("md"));
 
     return (
         <Box

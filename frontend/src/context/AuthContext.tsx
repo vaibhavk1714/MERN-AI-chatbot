@@ -13,6 +13,7 @@ type UserAuth = {
     login: (email: string, password: string,) => Promise<void>;
     logout: () => Promise<void>;
 }
+
 const AuthContext = createContext<UserAuth | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

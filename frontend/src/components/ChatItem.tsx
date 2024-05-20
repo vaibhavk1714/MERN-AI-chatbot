@@ -77,7 +77,7 @@ const ChatItem = ({ role, content }: { role: string; content: string }) => {
                         color: 'white'
                     }}>
                         {auth?.user?.name[0]}
-                        {auth?.user?.name.split(" ")[1][0]}
+                        {/* {auth?.user?.name.split(" ")[1][0]} */}
                     </Avatar>
                     <Box>
                         {!messageBlocks && (
